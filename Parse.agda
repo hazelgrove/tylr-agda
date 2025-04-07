@@ -14,34 +14,24 @@ open import Term
 open import Stack
 
 module Parse where
-
-  make-triple : {A B C : Set} -> A -> B -> C -> A × B × C 
-  make-triple x y z = (x , y , z)
-
-  extend-stack : stack -> (List stack-entry) -> stack 
-  extend-stack (τ , l1) l2 = (τ , l2 ++ l1)
-
-  trip-extend-stack : stack -> (List leq) -> (List (Maybe term)) -> (List terminal) -> stack 
-  trip-extend-stack 𝕂 xs ys zs = extend-stack 𝕂 (tripZip xs ys zs make-triple)
-
-  walk-entry : Set 
-  walk-entry = leq × (Maybe nonteriminal) × terminal
-
-  walk : Set 
-  walk = terminal × (List walk-entry)
-
+  
   wf-walk : walk -> Set
   wf-walk = {!   !}
 
-  walk-of-lists : terminal -> (List leq) -> (List (Maybe nonteriminal)) -> (List terminal) -> walk 
-  walk-of-lists = {!   !}
+  fill-walk-extension : (Maybe term) -> walk-extension -> stack-extension -> Set 
+  fill-walk-extension = {!   !}
 
   data push : stack -> (Maybe term) -> terminal -> stack -> Set where
-    Shift : ∀{𝕂 𝕊? τₖ 𝕂' τis τs σ?s 𝕊?s ⩿s} -> 
-      τs ≡ τₖ ∷ τis ->
-      wf-walk (walk-of-lists (hd 𝕂) ⩿s σ?s τs) ->
-      𝕂' ≡ trip-extend-stack 𝕂 ⩿s 𝕊?s τs ->
+    Shift : ∀{𝕂 𝕊? τₖ 𝕎+ 𝕂+ 𝕂'} -> 
+      hd-ext 𝕎+ ≡ just τₖ ->
+      wf-walk (hd 𝕂 , 𝕎+) ->
+      fill-walk-extension 𝕊? 𝕎+ 𝕂+ ->
+      𝕂' ≡ extend-chain 𝕂 𝕂+ ->
       push 𝕂 𝕊? τₖ 𝕂'
+    Reduce : 
+      push 𝕂₀ 𝕊?' τ 𝕂' ->
+      push 𝕂 𝕊? τ 𝕂'
+
 
   data parse : stack -> (List terminal) -> stack -> Set where
     ParseNil : ∀{𝕂} -> parse 𝕂 [] 𝕂 
