@@ -11,13 +11,13 @@ open import Relation.Binary.PropositionalEquality hiding ([_])
 open import PBG
 open import CFG
 
-module Main where
+module GG where
 
   data grout : Set where 
-    〈〉 : sort -> grout
-    〈〈 : sort -> grout
-    〉〉 : sort -> grout
-    〉〈 : sort -> grout
+    〈_〉 : sort -> grout
+    〈_〈 : sort -> grout
+    〉_〉 : sort -> grout
+    〉_〈 : sort -> grout
 
   data terminal : Set where 
     TT : cfterminal -> terminal
@@ -35,8 +35,24 @@ module Main where
   symbol-of-cfsymbol (CFT τ) = ST (TT τ)
   symbol-of-cfsymbol (CFN σ) = SN σ
 
+  -- 𝒳[_]∋_ : sort -> (List cfsymbol) -> Set 
+  -- 𝒳[_]∋_ = {!   !}
+
+  -- ℒ[_]∋_ : sort -> (List cfsymbol) -> Set 
+  -- ℒ[_]∋_ = {!   !}
+
+  -- ℛ[_]∋_ : sort -> (List cfsymbol) -> Set 
+  -- ℛ[_]∋_ = {!   !}
+
   data GG-of-CFG {H : CFG} : GG where 
     GCSub : ∀{σ χs} -> (H σ χs) -> (GG-of-CFG σ (map symbol-of-cfsymbol χs))
+    GC〈〉 : ∀{p s q} -> GG-of-CFG (p ⌈ s ⌉ q) [ ST (TG 〈 s 〉) ]
+    -- TODO
+    -- GC〈〈 : 
+    -- GC〉〉 : 
+    -- GC〈〈〉〉 : 
+  
+
 
 
 

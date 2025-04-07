@@ -53,7 +53,7 @@ module CFG where
   data CFG-of-PBG {G : PBG} : CFG where 
     CPRoot : CFG-of-PBG ROOT ((CFT #L) ∷ ((CFN (⊥ ⌈ s# ⌉ ⊥)) ∷ [ CFT #R ]))
     CPSort : ∀{pL s pR q xs PL PR} ->
-      (G s q) ⇒ xs ->
+      (G s q) ⟹ xs ->
       ((head xs ≡ (just (Sort s))) ->  pL ≺[ s ] q) ->
       ((last xs ≡ (just (Sort s))) ->  q ≻[ s ] pR) ->
       list-forall (zipWith (λ qLi pLi → qLi ⪯[ s ] pLi) (bound-bounds (length xs) pL q) PL) ->

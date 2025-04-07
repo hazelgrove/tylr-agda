@@ -58,22 +58,22 @@ module PBG where
   PBG : Set 
   PBG = sort -> prec -> regex
 
-  data _⇒_ : regex -> (List pbsymbol) -> Set where 
-    Empty : ε ⇒ []
-    Symbol : ∀{x} -> (X x) ⇒ [ x ]
+  data _⟹_ : regex -> (List pbsymbol) -> Set where 
+    Empty : ε ⟹ []
+    Symbol : ∀{x} -> (X x) ⟹ [ x ]
     PlusL : ∀{g1 g2 X} -> 
-      g1 ⇒ X -> 
-      (g1 ∣ g2) ⇒ X
+      g1 ⟹ X -> 
+      (g1 ∣ g2) ⟹ X
     PlusR : ∀{g1 g2 X} -> 
-      g2 ⇒ X -> 
-      (g1 ∣ g2) ⇒ X
+      g2 ⟹ X -> 
+      (g1 ∣ g2) ⟹ X
     Times : ∀{g1 g2 X Y} -> 
-      g1 ⇒ X ->
-      g2 ⇒ Y -> 
-      (g1 · g2) ⇒ (X ++ Y)
+      g1 ⟹ X ->
+      g2 ⟹ Y -> 
+      (g1 · g2) ⟹ (X ++ Y)
     StarEmpty : ∀{g} -> 
-      (g *) ⇒ []
+      (g *) ⟹ []
     StarAppend : ∀{g X Y} -> 
-      g ⇒ X ->
-      (g *) ⇒ Y -> 
-      (g *) ⇒ (X ++ Y)
+      g ⟹ X ->
+      (g *) ⟹ Y -> 
+      (g *) ⟹ (X ++ Y)
